@@ -23,6 +23,14 @@ class _NewUserPanelState extends State<NewUserPanel> {
     setState(() => _radioGroupValue = value);
   }
 
+  void _onClear() {
+    setState(() {
+      _nameController.text = '';
+      _ageController.text = '';
+      _radioGroupValue = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,14 +44,14 @@ class _NewUserPanelState extends State<NewUserPanel> {
             ),
           ),
         ),
-        TextField(
+        TextFormField(
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             labelText: 'Name',
           ),
           controller: _nameController,
         ),
-        TextField(
+        TextFormField(
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Age',
@@ -61,7 +69,6 @@ class _NewUserPanelState extends State<NewUserPanel> {
                 groupValue: _radioGroupValue,
                 onChanged: _onRadioValueChange,
               ),
-              
               Text('Female'),
               Radio(
                 value: false,
@@ -71,37 +78,62 @@ class _NewUserPanelState extends State<NewUserPanel> {
             ],
           ),
         ),
-        Container(
-          width: 100,
-          margin: EdgeInsets.symmetric(vertical: 20),
-          child: RaisedButton(
-            color: Colors.blue,
-            textColor: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Add'),
-                Icon(Icons.add),
-              ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 100,
+              margin: EdgeInsets.symmetric(vertical: 20),
+              child: RaisedButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Add'),
+                    Icon(Icons.add),
+                  ],
+                ),
+                onPressed: () {
+                  if (_nameController.text.length < 1 ||
+                      int.tryParse(_ageController.text) == null) {
+                    _nameController.
+
+                    return;
+                  }
+
+                  User user = User(
+                    id: DateTime.now().millisecondsSinceEpoch,
+                    name: _nameController.text,
+                    age: int.parse(_ageController.text),
+                    sex: _radioGroupValue,
+                  );
+
+                  widget._onUserAdd(user);
+
+                  _onClear();
+
+                  insertUser(user);
+                },
+              ),
             ),
-            onPressed: () {
-              if (_nameController.text.length < 1
-                  || int.tryParse(_ageController.text) == null) {
-                return;
-              }
-
-              User user = User(
-                id: DateTime.now().millisecondsSinceEpoch,
-                name: _nameController.text,
-                age: int.parse(_ageController.text),
-                sex: _radioGroupValue,
-              );
-
-              widget._onUserAdd(user);
-
-              insertUser(user);
-            },
-          ),
+            Container(
+              width: 100,
+              margin: EdgeInsets.only(
+                left: 10,
+              ),
+              child: RaisedButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Clear'),
+                    Icon(Icons.clear),
+                  ],
+                ),
+                onPressed: () => _onClear,
+              ),
+            ),
+          ],
         ),
       ],
     );

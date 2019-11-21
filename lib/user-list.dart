@@ -16,7 +16,7 @@ class UserList extends StatelessWidget {
       child: Container(
         alignment: Alignment(0.0, -0.8),
         width: double.infinity,
-        height: 240,
+        height: 255,
         padding: EdgeInsets.all(10),
         child: (_userList == null || _userList.isEmpty)
             ? Text('List is empty')
