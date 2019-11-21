@@ -97,8 +97,6 @@ class _NewUserPanelState extends State<NewUserPanel> {
                 onPressed: () {
                   if (_nameController.text.length < 1 ||
                       int.tryParse(_ageController.text) == null) {
-                    _nameController.
-
                     return;
                   }
 
